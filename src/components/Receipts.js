@@ -1,5 +1,5 @@
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 const Receipts = () => {
     //initial values in my receipt
@@ -10,9 +10,25 @@ const Receipts = () => {
         Amount: "",
 
     });
+    const [searchTerm, setSearchTerm] = useState("")
     //values after submitting data
 
     const [tableData, setTableData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/transactions");
+                const data = await response.json();
+                setTableData(data);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
+        fetchData();
+    }, []); // Empty dependency array to run only on mount
+
 
     //function for input change
 
@@ -22,19 +38,49 @@ const Receipts = () => {
     };
 
     //function for submission
-
-    const onSubmitData = (e) => {
+    const onSubmitData = async (e) => {
         e.preventDefault();
-
-        setTableData([...tableData, inputData]);
-
-        setInputData({
-            Date: "",
-            Description: "",
-            category: "",
-            Amount: "",
-        })
+        
+        if (inputData.Amount > 0) {
+            try {
+                // Send a POST request to add the new receipt to db.json
+                const response = await fetch("http://localhost:5000/transactions", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(inputData),
+                });
+    
+                // After adding, fetch updated data
+                const newReceipt = await response.json();
+                setTableData((prevData) => [...prevData, newReceipt]);
+    
+                // Reset input fields
+                setInputData({
+                    Date: "",
+                    Description: "",
+                    category: "",
+                    Amount: "",
+                });
+            } catch (error) {
+                console.error("Error adding transaction:", error);
+            }
+        } else {
+            alert("Amount must be a positive number");
+        }
     };
+    
+
+    const onSearchChange = (e) => {
+        setSearchTerm(e.target.value);  
+    };
+     
+    const filteredTableData = tableData.filter((data) =>
+        data.Description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        data.category.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
 
 
     return (
@@ -43,7 +89,13 @@ const Receipts = () => {
             <h1>The Royal bank of Flatiron</h1>
         </div>
         <div class="searchdiv">
-            <input class="searchdiv" ></input>
+            <input class="searchdiv"
+             className="searchDiv"
+             placeholder="Search transactions"
+             value={searchTerm}
+             onChange={onSearchChange}
+            >   
+            </input>
         </div>
         <div class="formdiv">
         <form onSubmit={onSubmitData}>
@@ -97,17 +149,15 @@ const Receipts = () => {
                     </tr>
                 </thead>
                 <tbody>
-             {tableData.map((data, index) => (
-                <tr key={index}>
-                  <td>{data.Date}</td>
-                  <td>{data.Description}</td>
-                  <td>{data.category}</td>
-                  <td>{data.Amount}</td>
-               </tr>
-          ))}
-                  
-                    
-                </tbody>
+                        {filteredTableData.map((data, index) => (
+                            <tr key={index}>
+                                <td>{data.Date}</td>
+                                <td>{data.Description}</td>
+                                <td>{data.category}</td>
+                                <td>{data.Amount}</td>
+                            </tr>
+                        ))}
+                    </tbody>
             </table>
         </div>
 
