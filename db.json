@@ -4,21 +4,21 @@
       "Date": "2025-01-01",
       "Description": "Grocery shopping at the market",
       "category": "Groceries",
-      "Amount": 50.25,
+      "Amount": 505,
       "id": "c33f"
     },
     {
       "Date": "2025-01-03",
       "Description": "Electric bill payment",
       "category": "Utilities",
-      "Amount": 75,
+      "Amount": 751,
       "id": "274e"
     },
     {
       "Date": "2025-01-05",
       "Description": "Movie ticket",
       "category": "Entertainment",
-      "Amount": 12.99,
+      "Amount": 1299,
       "id": "2db2"
     },
     {
@@ -26,28 +26,35 @@
       "Date": "2025-01-10",
       "Description": "vvkhfugh",
       "category": "gvigouoh",
-      "Amount": "10000"
+      "Amount": 200
     },
     {
       "id": "d136",
       "Date": "2025-01-10",
       "Description": "Movies",
       "category": "movies",
-      "Amount": "200"
+      "Amount": 200
     },
     {
       "id": "16f9",
       "Date": "",
       "Description": "",
       "category": "",
-      "Amount": "2"
+      "Amount": 340
     },
     {
       "id": "f7a0",
       "Date": "2025-01-15",
       "Description": "hjvhj",
       "category": "gcgj",
-      "Amount": "300"
+      "Amount": 300
+    },
+    {
+      "id": "e407",
+      "Date": "2025-01-09",
+      "Description": "Movies",
+      "category": "tvljjknk",
+      "Amount": "400"
     }
   ]
 }
