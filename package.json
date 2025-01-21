@@ -1,6 +1,6 @@
 {
   "homepage": "https://markabwoga.github.io/banktrans/",
-  "name": "ip4-transactions",
+  "name": "banktrans",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
